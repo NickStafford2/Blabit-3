@@ -1,0 +1,11 @@
+
+/* for flash messages*/
+.removeHeight{
+  -webkit-transition: 1s;
+  -moz-transition: 1s;
+  -ms-transition: 1s;
+  -o-transition: 1s;
+  transition: height 1s;
+  height: 0px !important;
+  min-height: 0px !important;
+}
