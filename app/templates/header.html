@@ -7,48 +7,46 @@
   <div class="collapse navbar-collapse"  id="navbarsExample04">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#/chats">Chats</a>
+          <a class="nav-link" href="{{ url_for('users') }}">Users</a>
       </li>
       <li class="nav-item">
-          <a class="nav-link" href="#/users">Users</a>
+        <a class="nav-link" href="#/chats">Chats</a>
       </li>
       <li class="nav-item">
           <a class="nav-link" href="#/memes">Memes</a>
       </li>
     </ul>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{url_for('login')}}">Login</a>
-        </li>
-        {# 
           {% if current_user.is_anonymous %}
             <li class="nav-item">
-                <a class="nav-link" href="#">{{ __('Login') }}</a>
+                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">{{ __('Register') }}</a>
+                <a class="nav-link" href="{{ url_for('register') }}">Register</a>
             </li>
           {% else %}
             <li class="nav-item dropdown">
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                  {{ Auth::user()->name }} <span class="caret"></span>
+                  {{ current_user.name }} <span class="caret"></span>
               </a>
 
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Home</a>
+                <a class="dropdown-item" href="{{ url_for('user', id=current_user.id) }}">Profile</a>
                 <a class="dropdown-item" href="#"
                    onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
+                    ?logout function
                 </a>
 
+        {# 
                 <form id="logout-form" action="#" method="POST" style="display: none;">
                   {{ form.csrf_token }}
+                  {{ form.hidden_tag() }}
                 </form>
+        #}
               </div>
             </li>
           {% endif %}
-        #}
       </ul>
   </div>
 </nav>

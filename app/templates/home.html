@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-	<h1>Welcome to Blabit</h1>
+		{% if current_user.is_anonymous %} 
+			<h1>Welcome to Blabit.</h1>
+			feel free to browse. for the full blabing experience, feel free to 
+			<a href="{{ url_for('login') }}">Login</a>
+
+		{% else %}
+			<h1>Welcome {{ current_user.id }}</h1>
+			all your chats are here...
+			ToDo
+		{% endif %}
 	{% include 'triggerWarning.html' %}
 	{% include 'fillerText.html' %}
 {% endblock %}
