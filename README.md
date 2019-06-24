@@ -10,14 +10,13 @@
 <h3>Links to important code I wrote</h3>
 
 <ul>
-    <li><a href="/app/Http/Controllers">Controllers</a></li>
-    <li><a href="/database/factories">Factories</a></li>
-    <li><a href="/database/migrations">Migrations</a></li>
-    <li><a href="/app">Models</a></li>
-    <li><a href="/routes/web.php">Routes</a></li>
-    <li><a href="/database/seeds">Seeds (for database)</a></li>
-    <li><a href="/resources/assets/js/components">Vue Components</a></li>
-</ul>
+    <li><a href="/app/__init__.py">__init__.py</a></li>
+    <li><a href="/app/forms.py">Flask-WTF Forms</a></li>
+    <li><a href="/migrations/versions">Migrations</a></li>
+    <li><a href="/app/models.py">Models</a></li>
+    <li><a href="/app/routes.py">Routes</a></li>
+    <li><a href="/app/static">Static directory and webpack files</a></li>
+
 
 <h3>Tools Used</h3>
 
