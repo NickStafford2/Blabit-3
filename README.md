@@ -16,7 +16,7 @@
     <li><a href="/app/models.py">Models</a></li>
     <li><a href="/app/routes.py">Routes</a></li>
     <li><a href="/app/static">Static directory and webpack files</a></li>
-
+</ul>
 
 <h3>Tools Used</h3>
 
@@ -25,6 +25,7 @@
     <li>Bootstrap</li>
     <li>Flask</li>
     <li>Flask-WTF</li>
+    <li>Jinja2</li>
     <li>Pip</li>
     <li>SQL-Alchemy</li>
     <li>SQLite</li>
