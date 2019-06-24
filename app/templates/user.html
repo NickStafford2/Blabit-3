@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-	<img src="{{ user.avatar(128) }}" alt="user avatar">
+	<img class="mt-3" src="{{ user.avatar(128) }}" alt="user avatar">
     <h1>{{ user.name }}</h1>
     <h6>@{{ user.id }}</h6>
     <h6>{{ user.email }}</h6>
@@ -14,7 +14,14 @@
     {% endif %}
 
     {% if user == current_user %}
-    <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+        <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+        {% include 'logout.html' %}
+    {% else %}
+        <sponsor-button
+            am_i_sponsor="0"
+        ></sponsor-button>
+        <subscribe-button
+            am_i_subscribed="{{ current_user.isSubscribedTo(user) }}"
+        ></subscribe-button>
     {% endif %}
-    
 {% endblock %}

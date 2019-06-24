@@ -9,8 +9,13 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="{{url_for('.static', filename='js/script.js')}}"></script>
+
   {{super()}}
+  <script type="text/javascript">
+      var csrf_token = "{{ csrf_token() }}";
+  </script>
+  <script src="{{url_for('.static', filename='js/script.js')}}"></script>
+  <script src="{{url_for('.static', filename='dist/main.js')}}"></script>
 {% endblock %}
 
 {% block title %}
@@ -26,7 +31,8 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div id="app" class="container">
+    <flash-message-box></flash-message-box>
     {% include 'flash.html' %}
     
     {# application content needs to be provided in the app_content block #}

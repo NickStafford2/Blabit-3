@@ -3,13 +3,18 @@ from flask_bootstrap    import Bootstrap
 from flask_login        import LoginManager
 from flask_migrate      import Migrate
 from flask_sqlalchemy   import SQLAlchemy
+from flask_wtf.csrf     import CSRFProtect
 from config             import Config
 from logging.handlers 	import RotatingFileHandler
 import os
 #from flask_debugtoolbar import DebugToolbarExtension
 
+csrf = CSRFProtect()
+
+
 app = Flask(__name__)
 app.config.from_object(Config)  #apply config file
+csrf.init_app(app)
 bootstrap = Bootstrap(app)
 db        = SQLAlchemy(app)
 migrate   = Migrate(app, db)

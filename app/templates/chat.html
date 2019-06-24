@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+{# if chat is object %}
+    id is a object
+{% else %}
+    id is not
+{% endif #}
+{{current_user.id == 3}}
+{{current_user.id == chat.user_id}}
+    <chat   
+            :id=         "{{ chat.id    }}"
+            user_id=         "{{ chat.user_id    }}"
+            title=      "{{ chat.title }}"
+        {% if chat.description %}
+            description="{{ chat.description}}"
+        {% endif %}
+            :is_live=   "{{chat.is_live}}"
+
+            {#:show_owner_options= "'{{current_user.id == 3}}'"#}
+        {% if current_user.id == chat.user_id %}
+            :show_owner_options= "true"
+        {% else %}
+            :show_owner_options= "false"
+        {% endif %}
+        
+    ></chat>
+        {#
+    <hr>
+    <h1>{{ chat.title }}</h1>
+    <h6>id:{{ chat.id }}</h6>
+
+    {% if chat.description %}
+        <p>Description: {{ chat.description}}</p>
+    {% endif %}
+    {% if chat.is_live %}
+        <p>LIVE!</p>
+    {% endif %}
+    
+    {% if current_user.id == chat.user_id %}
+        <p>commented out stuff </p>
+        <button id="letChatLive" onclick="javascript:setChatLiveStatus({{ chat.id }}, '{{chat.is_live}}')">Set Live</button>
+        
+
+        <form action="{{ url_for('chat_setLive') }}" method="post">
+            {% if chat.is_live %}
+                <a class="btn btn-secondary" href="{{ url_for('chat_setLive', id=chat.id, liveStatus=True) }}">Not Live</a>
+
+            {% else %}
+                <a class="btn btn-success" href="{{ url_for('chat_setLive', id=chat.id, liveStatus=False) }}">Live</a>
+                <input class="btn btn-success" type="submit">
+            {% endif %}
+        </form>
+        <a class="btn btn-danger" href="{{ url_for('chat_delete', id=chat.id) }}">Delete</a>
+    {% endif %}
+        #}
+{% endblock %}
+

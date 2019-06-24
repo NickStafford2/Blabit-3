@@ -1,0 +1,5 @@
+{% if current_user.isSubscribedTo(user) %} 
+    <a class="btn btn-success" href="{{ url_for('unsubscribe', id=user.id) }}">Subscribed</a>
+{% else %}
+    <a class="btn btn-secondary" href="{{ url_for('subscribe', id=user.id) }}">Subscribe</a>
+{% endif %}

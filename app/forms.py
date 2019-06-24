@@ -1,7 +1,7 @@
 from flask_wtf          import FlaskForm
 from wtforms            import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models         import User
+from app.models         import User, Chat
 
 class LoginForm(FlaskForm):
     id          = StringField(  'Tag',           validators=[DataRequired()])
@@ -45,3 +45,8 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError('Please use a different username.')
+
+class ChatCreateForm(FlaskForm):
+    title       = StringField('Title',      validators=[DataRequired()])
+    description = StringField('Description', validators=[])
+    submit      = SubmitField('Create')

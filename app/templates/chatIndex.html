@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    {% if current_user.is_authenticated %}
+        <a class="btn btn-primary" href="{{ url_for('create_chat') }}">Create new chat</a>
+    {% endif %}
+    <hr>
+    <h1>All Chats</h1>
+    <ul class="list-group">
+        {% for chat in chats %}
+        <li class="list-group-item">
+            <a href="{{ url_for('chat',id=chat.id) }}">
+                <h3>{{ chat.title }}</h3>
+                <h6>{{ chat.id }}</h6>
+                <h6>{{ chat.user_id }}</h6>
+                <p>{{ chat.description }}</p>
+{#
+
+                <img class="float-left mr-2" src="{{ chat.avatar(128) }}" alt="chat avatar">
+                <h1>{{ chat.name }}</h1>
+                <h6>@{{ chat.id }}</h6>
+                <p>Description: {{ chat.description }}</p>
+#}
+
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

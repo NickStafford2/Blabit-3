@@ -7,8 +7,8 @@ Create Date: 2018-11-14 18:52:02.084386
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy import false
-from sqlalchemy.sql import func
+#from sqlalchemy import false
+from sqlalchemy.sql import func, text
 
 
 # revision identifiers, used by Alembic.
@@ -26,7 +26,9 @@ def upgrade():
     sa.Column('title', sa.String(length=64), default='', nullable=False),
     sa.Column('description', sa.String(length=255), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=func.now(), nullable=False),
-    sa.Column('is_live', sa.Boolean(), server_default=false(), nullable=False),
+    sa.Column('is_live', sa.Integer(), nullable=False, server_default=text("0") ),
+    #no boolean in sqlite. 
+    #sa.Column('is_live', sa.Boolean(create_constraint=False), nullable=False, default=False, server_default="0"),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -1,11 +1,12 @@
 from datetime           import datetime
 from flask              import render_template, flash, redirect, url_for, request
+from flask              import jsonify
 from flask_login        import current_user, login_user, logout_user, login_required
 from werkzeug.security  import generate_password_hash
 from werkzeug.urls      import url_parse
 from app                import app, db
-from app.forms          import LoginForm, RegistrationForm, EditProfileForm
-from app.models         import User
+from app.forms          import LoginForm, RegistrationForm, EditProfileForm, ChatCreateForm
+from app.models         import User, Chat
 import sys
  
 @app.before_request
@@ -48,6 +49,7 @@ def login():
 @login_required
 @app.route('/logout')
 def logout():
+    print('logout called')
     logout_user()
     return redirect(url_for('home'))
 
@@ -69,13 +71,8 @@ def register():
 
 
 
-@app.route('/index')
-def index():
-    return 'index page. This is yet to be defined.'
-
-
 @app.route('/user/<id>')
-@login_required
+#@login_required
 def user(id):
     user = User.query.filter_by(id=id).first_or_404()
     return render_template('user.html', user=user)
@@ -102,3 +99,95 @@ def edit_profile():
         form.description.data = current_user.description
     return render_template('userEdit.html', title='Edit Profile',
                            form=form) 
+
+@app.route('/subscribe/<id>')
+@login_required
+def subscribe(id):
+    user = User.query.filter_by(id=id).first()
+    if user is None:
+        flash('Can not subscribe. User {} not found.'.format(id))
+        return redirect(url_for('home'))
+    if user == current_user:
+        flash('You cannot subscribe yourself!')
+        return redirect(url_for('user', id=id))
+    current_user.subscribeTo(user)
+    db.session.commit()
+    flash('You are subscribed to {}!'.format(id))
+    return redirect(url_for('user', id=id))
+
+@app.route('/unsubscribe/<id>')
+@login_required
+def unsubscribe(id):
+    user = User.query.filter_by(id=id).first()
+    if user is None:
+        flash('User {} not found.'.format(id))
+        return redirect(url_for('home'))
+    if user == current_user:
+        flash('You cannot unsubscribe yourself!')
+        return redirect(url_for('user', id=id))
+    current_user.unsubscribeFrom(user)
+    db.session.commit()
+    flash('You are not subscribed to {}.'.format(id))
+    return redirect(url_for('user', id=id))
+
+
+@app.route('/chats')
+def chats():
+    chats = Chat.query.all()
+    return render_template('chatIndex.html', chats=chats)
+
+@app.route('/chat/<id>')
+#@login_required
+def chat(id):
+    #print('view chat called')
+
+    chat = Chat.query.filter_by(id=id).first_or_404()
+    #print(type(chat.id))
+    #chat = jsonify(chat)
+
+    return render_template('chat.html', chat=chat)
+
+@login_required
+@app.route('/create_chat', methods=['GET', 'POST'])
+def create_chat():
+    #print('create chat called')
+    form = ChatCreateForm()
+    if form.validate_on_submit():
+        #print('validated')
+        chat = Chat(user_id=current_user.id, title=form.title.data, description=form.description.data)
+        #print(chat)
+        #print('chat created')
+        #chat.set
+        db.session.add(chat)
+        db.session.commit()
+        flash('new chat created')
+        #return 'chat finished'
+        return redirect(url_for('chat', id=chat.id))
+    return  render_template('chatCreate.html', title='create chat', form=form)
+
+@login_required
+@app.route('/chat_delete/<id>')  
+def chat_delete(id):
+    chat = Chat.query.filter_by(id=id).first_or_404()
+    if current_user == chat.user_id:
+        db.session.delete(chat)
+        db.session.commit()
+        flash('chat deleted')
+    else:
+        print('illegal delete')
+        flash('This is not your chat. login to delete it')
+    return redirect(url_for('home'))
+
+@login_required
+#@app.route('/chat_setLive/<id>/<liveStatus>')  
+@app.route('/chat_setLive', methods=['POST'])
+def chat_setLive(id, liveStatus):
+    print('liveStatus called')
+    return 'liveStatus called'
+    #print(type(liveStatus))
+    #if type(liveStatus) is bool:
+    #    chat = Chat.query.filter_by(id=id).first_or_404()
+    #    chat.setLiveStatus(liveStatus)
+    #else:
+    #    return 'liveStatus must be a Boolean'
+    #return redirect(url_for('chat', id=chat.id))
